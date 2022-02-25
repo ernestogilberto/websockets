@@ -2,6 +2,7 @@ const socket = io();
 
 let chatBox = document.getElementById('chatBox');
 let user;
+let products = [];
 
 Swal.fire({
   title: 'Welcome to the chat!',
@@ -26,7 +27,6 @@ chatBox.addEventListener('keyup', (e) => {
 });
 
 socket.on('history', (data) => {
-  console.log(`history: ${data}`);
   let history = document.getElementById('history');
   let messages = ""
   data.forEach(message => {
@@ -34,6 +34,16 @@ socket.on('history', (data) => {
   })
   history.innerHTML = messages;
 });
+
+socket.on('products', (data) => {
+
+  fetch('templates/realTimeProducts.ejs').then(response => response.text()).then(template => {
+    let html = ejs.render(template, {products: data});
+    document.getElementById('products').innerHTML = html;
+  });
+
+  // document.getElementById('products').innerHTML = JSON.stringify(data);
+})
 
 socket.on('alert', data => {
   Swal.fire ({
@@ -46,21 +56,15 @@ socket.on('alert', data => {
   });
 })
 
-// let productForm = document.getElementById('productForm');
-//
-// const handleSubmit = (e, form, route) => {
-//   e.preventDefault();
-//   let formData = new FormData(form)
-//   let obj = {}
-//   formData.forEach((value, key)=>obj[key] = value)
-//   fetch(route, {
-//     method:"POST",
-//     body:JSON.stringify(obj),
-//     headers:{
-//       "Content-type":"application/json"
-//     }
-//   }).then(res=>res.json()).then(json => console.log(json))
-//   form.reset();
-// }
-//
-// productForm.addEventListener('submit', (e)=> handleSubmit(e, e.target, '/api/products'))
+let productForm = document.getElementById('productForm');
+
+const handleSubmit = (e, form, route) => {
+  e.preventDefault();
+  let formData = new FormData(form)
+  let obj = {}
+  formData.forEach((value, key)=>obj[key] = value)
+  form.reset();
+  socket.emit('newProduct', obj);
+}
+
+productForm.addEventListener('submit', (e)=> handleSubmit(e, e.target, '/api/products'))

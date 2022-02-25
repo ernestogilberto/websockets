@@ -11,7 +11,7 @@
 <body>
     <div class="form-container">
         <h1>Enter Product</h1>
-        <form action="/api/products" method="POST" target="_blank">
+        <form id="productForm">
             <label for="title">Title: </label>
             <input id="title" name="title">
             <label for="price">Price: </label>
@@ -23,13 +23,16 @@
     </div>
     <a class="btn btn-primary" href="/api/products/">To Products</a>
 
+    <div id="products"></div>
+
     <input type="text" id="chatBox">
 
     <div id="history"> </div>
 
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="/socket.io/socket.io.js"></script>
-    <script src="./js/index.js"> </script>
+    <script src="./js/ejs.js" type="module"> </script>
+    <script src="./js/index.js" type="module"> </script>
 
 </body>
 </html>

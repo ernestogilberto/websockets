@@ -19,7 +19,7 @@
   },
   {
     "title": "Clock",
-    "price": 15.45,
+    "price": "123.54",
     "thumbnail": "https://cdn3.iconfinder.com/data/icons/education-209/64/clock-stopwatch-timer-time-1024.png",
     "id": 4
   }

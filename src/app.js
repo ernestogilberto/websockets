@@ -27,6 +27,12 @@ io.on('connection', (socket) => {
   socket.on('disconnect', () => {
     console.log('Client disconnected');
   });
+  socket.on('newProduct', async (data) => {
+        await manager.save(data);
+        let products = await manager.getAll().then(r => (r.payload))
+        io.emit('products', products)
+      }
+  )
 });
 
 app.set('views', './views')
