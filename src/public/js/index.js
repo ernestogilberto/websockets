@@ -28,9 +28,10 @@ chatBox.addEventListener('keyup', (e) => {
 
 socket.on('history', (data) => {
   let history = document.getElementById('history');
+  let date = new Date();
   let messages = ""
   data.forEach(message => {
-    messages += `<p> <span class="user"> ${message.userId} </span> - <span class="message"> ${message.message} </span>  </p>`
+    messages += `<p> <span class="user"> ${message.userId} </span> - <span class="date"> ${date.toLocaleDateString()} - ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()} </span> - <span class="message"> ${message.message} </span>  </p>`
   })
   history.innerHTML = messages;
 });
