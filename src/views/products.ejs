@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/css/styles.css">
+    <title>EJS</title>
+</head>
+<body>
+    <h1>Products View</h1>
+    <% if (products && products.length > 0) { %>
+        <div class="products-container">
+            <div class="products-header">
+                <p>Name</p>
+                <p>Price</p>
+                <p>Picture</p>
+            </div>
+            <div class="products">
+                <% for (let product of products) { %>
+                    <div class="product-item">
+                        <p> <%= product.title %></p>
+                        <p>$ <%= product.price %></p>
+                        <img src=<%=product.thumbnail%> alt="image of <%= product.title %> ">
+                    </div>
+                <% } %>
+            </div>
+        </div>
+    <% } else { %>
+        <div class="product-alert-container"><h2 class="product-alert">Products not found.</h2></div>
+    <% } %>
+    <a class="btn btn-primary" href="/">To Form</a>
+</body>
+</html>

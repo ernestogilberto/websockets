@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="/css/styles.css">
+    <title>EJS</title>
+</head>
+<body>
+    <div class="form-container">
+        <h1>Enter Product</h1>
+        <form action="/api/products" method="POST" target="_blank">
+            <label for="title">Title: </label>
+            <input id="title" name="title">
+            <label for="price">Price: </label>
+            <input id="price" name="price">
+            <label for="thumbnail">Thumbnail: </label>
+            <input id="thumbnail" name="thumbnail">
+            <input type="submit" class="btn btn-submit">
+        </form>
+    </div>
+    <a class="btn btn-primary" href="/api/products/">To Products</a>
+
+    <input type="text" id="chatBox">
+
+    <div id="history"> </div>
+
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="./js/index.js"> </script>
+
+</body>
+</html>
