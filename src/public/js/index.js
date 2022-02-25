@@ -30,7 +30,7 @@ socket.on('history', (data) => {
   let history = document.getElementById('history');
   let messages = ""
   data.forEach(message => {
-    messages += `<p> ${message.userId} - ${message.message} </p>`
+    messages += `<p> <span class="user"> ${message.userId} </span> - <span class="message"> ${message.message} </span>  </p>`
   })
   history.innerHTML = messages;
 });
