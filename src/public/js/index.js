@@ -27,12 +27,13 @@ chatBox.addEventListener('keyup', (e) => {
 });
 
 socket.on('history', (data) => {
-  let history = document.getElementById('history');
+  let history = document.getElementById('messages');
   let messages = ""
   data.forEach(message => {
     messages += `<p> <span class="user"> ${message.userId} </span> - <span class="date"> ${message.date} </span> - <span class="message"> ${message.message} </span>  </p>`
   })
   history.innerHTML = messages;
+  document.getElementById('final').scrollIntoView(true)
 });
 
 socket.on('products', (data) => {
