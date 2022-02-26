@@ -28,10 +28,9 @@ chatBox.addEventListener('keyup', (e) => {
 
 socket.on('history', (data) => {
   let history = document.getElementById('history');
-  let date = new Date();
   let messages = ""
   data.forEach(message => {
-    messages += `<p> <span class="user"> ${message.userId} </span> - <span class="date"> ${date.toLocaleDateString()} - ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()} </span> - <span class="message"> ${message.message} </span>  </p>`
+    messages += `<p> <span class="user"> ${message.userId} </span> - <span class="date"> ${message.date} </span> - <span class="message"> ${message.message} </span>  </p>`
   })
   history.innerHTML = messages;
 });
@@ -39,11 +38,8 @@ socket.on('history', (data) => {
 socket.on('products', (data) => {
 
   fetch('templates/realTimeProducts.ejs').then(response => response.text()).then(template => {
-    let html = ejs.render(template, {products: data});
-    document.getElementById('products').innerHTML = html;
+    document.getElementById('products').innerHTML = ejs.render(template, {products: data});
   });
-
-  // document.getElementById('products').innerHTML = JSON.stringify(data);
 })
 
 socket.on('alert', data => {

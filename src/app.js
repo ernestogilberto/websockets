@@ -21,7 +21,9 @@ io.on('connection', (socket) => {
     socket.broadcast.emit('alert', data);
   })
   socket.on('chat message', data => {
-    log.push({userId: data.user, message: data.message});
+    let date = new Date();
+    let currentDate = `${date.toLocaleDateString()} - ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
+    log.push({userId: data.user, message: data.message, date: currentDate});
     io.emit('history', log)
   })
   socket.on('disconnect', () => {
