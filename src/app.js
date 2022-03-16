@@ -1,6 +1,42 @@
-const express = require('express')
-const productsRouter = require('./routes/products')
-const {Server} = require('socket.io');
+import express from 'express'
+import productsRouter from './routes/products.js'
+import {Server} from 'socket.io'
+
+import options from './options/mysqlite3config.js';
+import knex from 'knex';
+
+const database = knex(options);
+
+import Contenedor from './js/contenedor.js';
+const manager = new Contenedor()
+import MessagesManager from './js/messagesManager.js'
+const messagesManager = new MessagesManager()
+
+const createTable = async () => {
+
+  if(await database.schema.hasTable('messages')) {
+    console.log('la tabla ya existe')
+    return {
+      status: 'success',
+      message: 'table already exists'
+    }
+  }
+
+  try {
+    await database.schema.createTable('messages', (table) => {
+      table.increments('id').primary();
+      table.string('userId').notNullable();
+      table.string('message').notNullable();
+      table.string('date').notNullable();
+    });
+    return {status: 'success', payload: 'table created'}
+  }
+  catch (error) {
+    return {status: 'error', message: error}
+  }
+}
+
+createTable()
 
 const app = express();
 
@@ -15,16 +51,23 @@ let log = [];
 
 io.on('connection', (socket) => {
   console.log('Client connected');
-  // socket.broadcast.emit('alert');
-  socket.on('newUser', (data) => {
-    socket.emit('history', log);
+  socket.on('newUser', async (data) => {
+    let messages = []
+    await messagesManager.getAll().then(res => {
+      messages = res.payload
+    })
+    socket.emit('history', messages);
     socket.broadcast.emit('alert', data);
   })
-  socket.on('chat message', data => {
+  socket.on('chat message', async data => {
     let date = new Date();
     let currentDate = `${date.toLocaleDateString()} - ${date.getHours()}:${date.getMinutes()}:${date.getSeconds()}`;
-    log.push({userId: data.user, message: data.message, date: currentDate});
-    io.emit('history', log)
+    await messagesManager.save({userId: data.user, message: data.message, date: currentDate})
+    let messages = []
+    await messagesManager.getAll().then(res => {
+      messages = res.payload
+    })
+    io.emit('history', messages);
   })
   socket.on('disconnect', () => {
     console.log('Client disconnected');
