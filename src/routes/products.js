@@ -26,6 +26,28 @@ const createTable = async () => {
       table.float('price').notNullable();
       table.string('thumbnail').notNullable();
     });
+    await manager.save([
+      {
+        title: "Rule",
+        price: 15.52,
+        thumbnail: "https://cdn3.iconfinder.com/data/icons/education-209/64/ruler-triangle-stationary-school-1024.png"
+      },
+      {
+        title: "Calculator",
+        price: 23.64,
+        thumbnail: "https://cdn3.iconfinder.com/data/icons/education-209/64/calculator-math-tool-school-1024.png"
+      },
+      {
+        title: "Pencil",
+        price: 5.98,
+        thumbnail: "https://cdn3.iconfinder.com/data/icons/education-209/64/pencil-pen-stationery-school-1024.png"
+      },
+      {
+        title: "Clock",
+        price: 123.54,
+        thumbnail: "https://cdn3.iconfinder.com/data/icons/education-209/64/clock-stopwatch-timer-time-1024.png"
+      }
+    ])
     return {status: 'success', payload: 'table created'}
   }
   catch (error) {
